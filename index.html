@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Pigeon 🐦 Diary – Voice & Realtime Chat Online</title>
+  <meta name="description" content="The Pigeon Diary is an exclusive 10-user voice and anonymous chat platform. Connect 1-on-1 with online strangers via crystal-clear voice calls, voice clips, and photo sharing.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐦</text></svg>">
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="pigeon-theme" id="appBody">
+
+  <!-- Real-time Admin Announcement Banner -->
+  <div class="global-site-announcement hide" id="globalAnnouncementBanner">
+    <span class="material-icons-round">campaign</span>
+    <span id="announcementBannerText">Welcome to The Pigeon Diary</span>
+  </div>
+
+  <!-- Top Navigation Header -->
+  <header class="app-header">
+    <div class="header-left">
+      <div class="brand-logo">
+        <span class="logo-icon">🕊️</span>
+        <div class="brand-text">
+          <span class="brand-title">The Pigeon <span class="highlight">Diary</span></span>
+          <span class="brand-badge">VOICE & CHAT</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Online Capacity Pill (Max 10) -->
+    <div class="header-center">
+      <div class="capacity-pill" id="capacityPill" title="Strict limit: Only 10 online users can talk in this room">
+        <span class="pulse-dot"></span>
+        <span class="capacity-text"><strong id="onlineCount">0</strong> / <span id="maxCount">10</span> Online Pigeons</span>
+        <button class="btn-roost-info" id="btnViewOnlineUsers" title="View Active Pigeons">
+          <span class="material-icons-round">groups</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="header-right">
+      <button class="btn-profile-card" id="btnEditProfile" title="Edit Guest Profile">
+        <span class="user-avatar-mini" id="navAvatar">🐦</span>
+        <div class="user-info-mini">
+          <span class="user-name-mini" id="navNickname">Guest Pigeon</span>
+          <span class="user-country-mini" id="navCountry">
+            <span id="navFlag">🌍</span> <span id="navCountryName">Detecting IP...</span>
+          </span>
+        </div>
+        <span class="material-icons-round edit-icon">tune</span>
+      </button>
+      <button class="btn-icon" id="btnToggleSound" title="Toggle Sound FX">
+        <span class="material-icons-round" id="soundIcon">volume_up</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="app-main-layout">
+
+    <!-- LEFT SIDEBAR: Filters, Friends & Call History (AirTALK Style) -->
+    <aside class="sidebar-panel left-panel" id="leftPanel">
+      
+      <!-- User's IP Location Card -->
+      <section class="filter-card ip-location-card">
+        <div class="card-header">
+          <div class="header-title">
+            <span class="material-icons-round text-cyan">my_location</span>
+            <h3>YOUR IP LOCATION</h3>
+          </div>
+          <span class="ip-verified-pill"><span class="material-icons-round" style="font-size: 13px;">verified</span> Auto-Detected</span>
+        </div>
+        <div class="ip-detected-display">
+          <span class="ip-flag" id="sidebarFlag">🇮🇳</span>
+          <div class="ip-info">
+            <strong id="sidebarCountryName">India</strong>
+            <small id="sidebarCity">IP Address Geolocation</small>
+          </div>
+        </div>
+      </section>
+
+      <!-- Gender Filter Card -->
+      <section class="filter-card">
+        <div class="card-header">
+          <div class="header-title">
+            <span class="material-icons-round text-cyan">wc</span>
+            <h3>GENDER FILTER</h3>
+          </div>
+          <span class="ai-pill">✨ AI Powered</span>
+        </div>
+        <div class="gender-selector">
+          <label class="gender-btn active" data-gender="both">
+            <input type="radio" name="prefGender" value="both" checked>
+            <span>Both</span>
+          </label>
+          <label class="gender-btn" data-gender="female">
+            <input type="radio" name="prefGender" value="female">
+            <span>Female ♀️</span>
+          </label>
+          <label class="gender-btn" data-gender="male">
+            <input type="radio" name="prefGender" value="male">
+            <span>Male ♂️</span>
+          </label>
+        </div>
+      </section>
+
+      <!-- Country Filter Card -->
+      <section class="filter-card">
+        <div class="card-header">
+          <div class="header-title">
+            <span class="material-icons-round text-purple">public</span>
+            <h3>COUNTRY PREFERENCE</h3>
+          </div>
+        </div>
+        <div class="country-filter-inputs">
+          <div class="input-group">
+            <label>Preferred Country:</label>
+            <select id="prefCountrySelect" class="styled-select">
+              <option value="">Any Country (Worldwide 🌍)</option>
+              <option value="IN">🇮🇳 India</option>
+              <option value="US">🇺🇸 United States</option>
+              <option value="GB">🇬🇧 United Kingdom</option>
+              <option value="CA">🇨🇦 Canada</option>
+              <option value="AE">🇦🇪 UAE / Dubai</option>
+              <option value="SA">🇸🇦 Saudi Arabia</option>
+              <option value="DE">🇩🇪 Germany</option>
+              <option value="FR">🇫🇷 France</option>
+              <option value="JP">🇯🇵 Japan</option>
+              <option value="AU">🇦🇺 Australia</option>
+              <option value="BR">🇧🇷 Brazil</option>
+              <option value="PK">🇵🇰 Pakistan</option>
+              <option value="BD">🇧🇩 Bangladesh</option>
+              <option value="SG">🇸🇬 Singapore</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label>Exclude Country:</label>
+            <select id="excludeCountrySelect" class="styled-select">
+              <option value="">None (Don't exclude)</option>
+              <option value="IN">🇮🇳 India</option>
+              <option value="US">🇺🇸 United States</option>
+              <option value="GB">🇬🇧 United Kingdom</option>
+              <option value="PK">🇵🇰 Pakistan</option>
+              <option value="BD">🇧🇩 Bangladesh</option>
+              <option value="AE">🇦🇪 UAE</option>
+              <option value="RU">🇷🇺 Russia</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <!-- Interests Card -->
+      <section class="filter-card">
+        <div class="card-header">
+          <div class="header-title">
+            <span class="material-icons-round text-orange">interests</span>
+            <h3>YOUR INTERESTS</h3>
+          </div>
+          <span class="saved-pill">Auto Saved</span>
+        </div>
+        <div class="interests-tag-cloud" id="interestsTags">
+          <button class="interest-chip active" data-tag="Music">🎵 Music</button>
+          <button class="interest-chip active" data-tag="Gaming">🎮 Gaming</button>
+          <button class="interest-chip" data-tag="Movies">🎬 Movies</button>
+          <button class="interest-chip" data-tag="Tech">💻 Tech</button>
+          <button class="interest-chip" data-tag="Languages">🗣️ Languages</button>
+          <button class="interest-chip" data-tag="Travel">✈️ Travel</button>
+          <button class="interest-chip" data-tag="Philosophy">☕ Deep Talk</button>
+          <button class="interest-chip" data-tag="Anime">🍙 Anime</button>
+        </div>
+      </section>
+
+      <!-- Friends & History Tab Card -->
+      <section class="filter-card friends-card">
+        <div class="friends-header-tabs">
+          <button class="tab-btn active" id="tabFriends">FRIENDS (0)</button>
+          <button class="tab-btn" id="tabHistory">CALL LOG</button>
+        </div>
+        
+        <div class="tab-content" id="friendsTabContent">
+          <div class="empty-state" id="emptyFriends">
+            <span class="empty-icon">🕊️</span>
+            <p>No pigeon friends yet.</p>
+            <small>Add friends during calls to talk again later!</small>
+          </div>
+          <div class="friends-list hide" id="friendsList"></div>
+        </div>
+
+        <div class="tab-content hide" id="historyTabContent">
+          <div class="call-history-list" id="callHistoryList">
+            <div class="empty-state">
+              <span class="empty-icon">📜</span>
+              <p>Your call diary is empty.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Guidelines -->
+      <div class="guidelines-card">
+        <h4><span class="material-icons-round">verified_user</span> Pigeon Rules</h4>
+        <ul>
+          <li>🔞 18+ Friendly voice community</li>
+          <li>📍 IP Location is automatically verified</li>
+          <li>🚫 Zero tolerance for harassment or vulgarity</li>
+        </ul>
+      </div>
+
+    </aside>
+
+    <!-- CENTER AREA: AirTALK Style Calling Arena -->
+    <section class="center-call-arena" id="callArena">
+
+      <!-- Status Header -->
+      <div class="arena-header">
+        <div class="roost-badge">
+          <span class="material-icons-round">home</span>
+          <span>Room: <strong>The Pigeon Nest (10 Spots Max)</strong></span>
+        </div>
+        <div class="call-timer-pill hide" id="callTimerPill">
+          <span class="timer-dot"></span>
+          <span id="callDuration">00:00</span>
+        </div>
+      </div>
+
+      <!-- Partner Profile Card (Shown When Matched / In Call) -->
+      <div class="partner-card-wrapper hide" id="partnerCard">
+        <div class="partner-avatar-ring">
+          <span class="partner-avatar-emoji" id="partnerAvatar">🕊️</span>
+          <div class="audio-pulse-ring" id="partnerPulseRing"></div>
+        </div>
+
+        <div class="partner-details">
+          <div class="partner-name-row">
+            <h2 id="partnerNickname">Stranger Pigeon</h2>
+            <span class="partner-gender-tag" id="partnerGenderTag">♂️</span>
+          </div>
+
+          <!-- Country Display Badge with IP Verification -->
+          <div class="partner-country-badge" id="partnerCountryBadge">
+            <span class="country-flag-emoji" id="partnerCountryFlag">🇮🇳</span>
+            <span class="country-name-text" id="partnerCountryName">India</span>
+            <span class="ip-verified-badge" title="Location detected via IP address">
+              <span class="material-icons-round">verified</span> IP Verified
+            </span>
+            <span class="speaking-status-pill" id="partnerSpeakingStatus">Listening 🎧</span>
+          </div>
+
+          <!-- Partner Interests -->
+          <div class="partner-tags" id="partnerInterests">
+            <span class="mini-tag">🎵 Music</span>
+            <span class="mini-tag">🗣️ Languages</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Center Voice Call Hub / Sonar Radar -->
+      <div class="radar-visualizer-container" id="radarContainer">
+        
+        <!-- Animated Waves -->
+        <div class="sonar-wave wave-1"></div>
+        <div class="sonar-wave wave-2"></div>
+        <div class="sonar-wave wave-3"></div>
+
+        <!-- Center Interactive Call Hub -->
+        <div class="center-hub-circle" id="centerHubCircle">
+          <div class="pigeon-logo-center">
+            <span class="pigeon-emoticon" id="hubEmoticon">🐦</span>
+          </div>
+          <div class="hub-status-text" id="hubStatusText">Tap Call to find a stranger</div>
+          
+          <!-- Live Audio Canvas Visualizer -->
+          <canvas id="audioVisualizerCanvas" class="audio-canvas hide" width="220" height="60"></canvas>
+        </div>
+
+      </div>
+
+      <!-- In-Call / Search Action Controls -->
+      <div class="arena-action-controls">
+        
+        <!-- Idle / Start Call Button -->
+        <div class="controls-idle" id="idleControls">
+          <button class="btn-main-call" id="btnStartCall">
+            <span class="material-icons-round call-btn-icon">call</span>
+            <span class="btn-text">CALL STRANGER</span>
+          </button>
+
+          <!-- Quick Test Bot Button for Instant Solo Testing -->
+          <button class="btn-quick-bot" id="btnTestWithBot" title="Test voice call & chat immediately without waiting">
+            <span class="material-icons-round">smart_toy</span>
+            <span>Test with Companion 🤖</span>
+          </button>
+        </div>
+
+        <!-- Searching / Calling State -->
+        <div class="controls-searching hide" id="searchingControls">
+          <div class="search-indicator">
+            <div class="spinner-ring"></div>
+            <div class="search-info">
+              <span class="search-title">Searching for an online Pigeon...</span>
+              <span class="search-sub">Checking among <span id="poolOnlineCount">0</span> active users</span>
+            </div>
+          </div>
+          <button class="btn-danger-cancel" id="btnCancelSearch">
+            <span class="material-icons-round">close</span>
+            <span>Cancel</span>
+          </button>
+        </div>
+
+        <!-- In-Call Controls (AirTALK Action Bar) -->
+        <div class="controls-in-call hide" id="inCallControls">
+          
+          <!-- Mute Button -->
+          <button class="btn-call-action" id="btnToggleMute" title="Mute Microphone (Type in Chat)">
+            <span class="material-icons-round icon-mute" id="muteIcon">mic</span>
+            <span class="action-label" id="muteLabel">Mute</span>
+          </button>
+
+          <!-- In-Call Games Button (AirTALK Style) -->
+          <button class="btn-call-action btn-game-action" id="btnOpenInCallGames" title="Play In-Call Games">
+            <span class="material-icons-round text-yellow">sports_esports</span>
+            <span class="action-label">Games 🎮</span>
+          </button>
+
+          <!-- In-Call Chat Button (Direct Floating Chat) -->
+          <button class="btn-call-action btn-incall-chat" id="btnOpenInCallChat" title="Open Live Chat">
+            <span class="material-icons-round text-cyan">chat</span>
+            <span class="action-label">Chat 💬</span>
+            <span class="unread-dot hide" id="chatUnreadDot"></span>
+          </button>
+
+          <!-- Hang Up Button (Prompts Sure?) -->
+          <div class="hangup-button-group">
+            <button class="btn-call-action btn-hangup" id="btnHangUp" title="Hang Up">
+              <span class="material-icons-round">call_end</span>
+              <span class="action-label">Hang Up</span>
+            </button>
+            <button class="btn-hangup-confirm hide" id="btnConfirmHangUp">
+              <span>Sure? ❌</span>
+            </button>
+          </div>
+
+          <!-- Add Friend Button -->
+          <button class="btn-call-action" id="btnAddFriend" title="Add as Pigeon Friend">
+            <span class="material-icons-round text-pink">person_add</span>
+            <span class="action-label">Add Friend</span>
+          </button>
+
+          <!-- Report Button -->
+          <button class="btn-call-action" id="btnReportPartner" title="Report Stranger">
+            <span class="material-icons-round text-warning">flag</span>
+            <span class="action-label">Report</span>
+          </button>
+
+        </div>
+
+      </div>
+
+      <!-- Secondary Toggles Bar -->
+      <div class="arena-footer-bar">
+        <label class="toggle-switch-label">
+          <input type="checkbox" id="chkAutoCall">
+          <span class="slider round"></span>
+          <span class="toggle-text">Enable Auto-Call</span>
+        </label>
+        <span class="footer-divider">|</span>
+        <button class="btn-text-link" id="btnOpenLobbyChat">
+          <span class="material-icons-round text-cyan">forum</span>
+          <span>Room Diary</span>
+        </button>
+        <span class="footer-divider">|</span>
+        <button class="btn-text-link" id="btnHelpGuide">
+          <span class="material-icons-round text-purple">help_outline</span>
+          <span>Guidelines</span>
+        </button>
+      </div>
+
+    </section>
+
+    <!-- RIGHT SIDEBAR: Real-time Chat with Voice Clips & Photos -->
+    <aside class="sidebar-panel right-panel" id="rightPanel">
+      
+      <!-- Chat Header -->
+      <div class="chat-header">
+        <div class="chat-title-group">
+          <div class="chat-icon-avatar" id="chatHeaderAvatar">💬</div>
+          <div class="chat-info">
+            <h3 id="chatTargetTitle">Pigeon Live Chat</h3>
+            <span class="chat-status-subtitle" id="chatTargetSubtitle">
+              <span class="country-pill-mini" id="chatCountryPill">🌍 Global Room</span>
+            </span>
+          </div>
+        </div>
+        <button class="btn-icon btn-close-chat-mobile" id="btnCloseChatMobile">
+          <span class="material-icons-round">chevron_right</span>
+        </button>
+      </div>
+
+      <!-- Messages Stream Area -->
+      <div class="chat-messages-container" id="chatMessagesContainer">
+        
+        <!-- Welcome banner -->
+        <div class="chat-system-notice">
+          <span class="notice-icon">🕊️</span>
+          <p>Welcome to <strong>The Pigeon Diary</strong>. Locations are auto-detected via IP 📍. Send instant voice clips 🎙️ & photos 📷 with strangers.</p>
+        </div>
+
+      </div>
+
+      <!-- Voice Note Recorder Bar (Animated Overlay when recording) -->
+      <div class="voice-recorder-overlay hide" id="voiceRecorderOverlay">
+        <div class="recorder-pulse-dot"></div>
+        <span class="recorder-timer" id="recordingTimer">00:00</span>
+        <span class="recording-label">Recording Voice Clip...</span>
+        <div class="recorder-actions">
+          <button class="btn-cancel-recording" id="btnCancelRecording" title="Discard">
+            <span class="material-icons-round">delete</span>
+          </button>
+          <button class="btn-send-recording" id="btnSendRecording" title="Send Voice Clip">
+            <span class="material-icons-round">send</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Photo Upload Preview Modal / Drawer -->
+      <div class="photo-preview-bar hide" id="photoPreviewBar">
+        <div class="photo-thumb-wrapper">
+          <img id="photoPreviewImg" src="" alt="Preview">
+          <button class="btn-remove-photo" id="btnRemovePhoto">×</button>
+        </div>
+        <input type="text" id="photoCaptionInput" class="photo-caption-input" placeholder="Add a caption...">
+        <button class="btn-send-photo" id="btnSendPhoto">
+          <span class="material-icons-round">send</span>
+        </button>
+      </div>
+
+      <!-- Chat Input Controls Bar -->
+      <div class="chat-input-toolbar">
+        
+        <!-- Quick Emoji Strip -->
+        <div class="quick-emoji-strip">
+          <button class="emoji-chip" data-emoji="👋">👋</button>
+          <button class="emoji-chip" data-emoji="😄">😄</button>
+          <button class="emoji-chip" data-emoji="❤️">❤️</button>
+          <button class="emoji-chip" data-emoji="🔥">🔥</button>
+          <button class="emoji-chip" data-emoji="🕊️">🕊️</button>
+          <button class="emoji-chip" data-emoji="🎧">🎧</button>
+          <button class="emoji-chip" data-emoji="💯">💯</button>
+        </div>
+
+        <!-- Input Row -->
+        <form class="chat-input-form" id="chatInputForm">
+          
+          <!-- Photo Attachment Button -->
+          <label class="btn-chat-tool" title="Send Photo / Image">
+            <input type="file" id="imageFileInput" accept="image/*" class="hide">
+            <span class="material-icons-round">photo_camera</span>
+          </label>
+
+          <!-- Voice Note Record Button -->
+          <button type="button" class="btn-chat-tool btn-mic-record" id="btnStartVoiceRecord" title="Record Voice Audio Clip">
+            <span class="material-icons-round">mic</span>
+          </button>
+
+          <!-- Text Input -->
+          <input type="text" id="chatTextInput" class="chat-text-input" placeholder="Type a message..." autocomplete="off">
+
+          <!-- Send Text Button -->
+          <button type="submit" class="btn-chat-send" id="btnSendText" title="Send Message">
+            <span class="material-icons-round">send</span>
+          </button>
+
+        </form>
+
+      </div>
+
+    </aside>
+
+  </main>
+
+  <!-- ================= MODALS & POPUPS ================= -->
+
+  <!-- 1. GUEST ACCOUNT MODAL WITH IP AUTO-DETECTION -->
+  <div class="modal-backdrop" id="guestModalBackdrop">
+    <div class="modal-card guest-modal-card">
+      
+      <div class="modal-header">
+        <div class="guest-pigeon-logo">
+          <span>🕊️</span>
+        </div>
+        <h2>Create Guest Account</h2>
+        <p>Your location is <strong>automatically detected via IP</strong></p>
+      </div>
+
+      <form id="guestProfileForm" class="guest-profile-form">
+        
+        <!-- Nickname Field -->
+        <div class="form-group">
+          <label for="guestNickname">Guest Nickname <span class="required">*</span></label>
+          <div class="input-icon-wrapper">
+            <span class="material-icons-round form-icon">badge</span>
+            <input type="text" id="guestNickname" maxlength="20" placeholder="e.g. SkyPigeon_44" required autofocus>
+          </div>
+        </div>
+
+        <!-- Auto-Detected IP Location Box -->
+        <div class="form-group">
+          <label>Your Detected Country (via IP)</label>
+          <div class="ip-detected-box">
+            <div class="ip-box-left">
+              <span class="ip-modal-flag" id="modalDetectedFlag">🇮🇳</span>
+              <div class="ip-modal-text">
+                <strong id="modalDetectedCountryName">India</strong>
+                <span class="ip-verified-badge"><span class="material-icons-round">verified</span> IP Verified</span>
+              </div>
+            </div>
+            <button type="button" class="btn-change-country" id="btnToggleManualCountry">Change</button>
+          </div>
+
+          <!-- Hidden / Optional manual country dropdown -->
+          <div class="manual-country-wrapper hide" id="manualCountryWrapper">
+            <select id="guestCountrySelect" class="styled-select" style="margin-top: 6px;">
+              <option value="IN|India|🇮🇳">🇮🇳 India</option>
+              <option value="US|United States|🇺🇸">🇺🇸 United States</option>
+              <option value="GB|United Kingdom|🇬🇧">🇬🇧 United Kingdom</option>
+              <option value="CA|Canada|🇨🇦">🇨🇦 Canada</option>
+              <option value="AE|United Arab Emirates|🇦🇪">🇦🇪 UAE / Dubai</option>
+              <option value="SA|Saudi Arabia|🇸🇦">🇸🇦 Saudi Arabia</option>
+              <option value="PK|Pakistan|🇵🇰">🇵🇰 Pakistan</option>
+              <option value="BD|Bangladesh|🇧🇩">🇧🇩 Bangladesh</option>
+              <option value="DE|Germany|🇩🇪">🇩🇪 Germany</option>
+              <option value="FR|France|🇫🇷">🇫🇷 France</option>
+              <option value="JP|Japan|🇯🇵">🇯🇵 Japan</option>
+              <option value="AU|Australia|🇦🇺">🇦🇺 Australia</option>
+              <option value="BR|Brazil|🇧🇷">🇧🇷 Brazil</option>
+              <option value="SG|Singapore|🇸🇬">🇸🇬 Singapore</option>
+              <option value="RU|Russia|🇷🇺">🇷🇺 Russia</option>
+              <option value="IT|Italy|🇮🇹">🇮🇹 Italy</option>
+              <option value="ES|Spain|🇪🇸">🇪🇸 Spain</option>
+              <option value="TR|Turkey|🇹🇷">🇹🇷 Turkey</option>
+              <option value="ID|Indonesia|🇮🇩">🇮🇩 Indonesia</option>
+              <option value="MY|Malaysia|🇲🇾">🇲🇾 Malaysia</option>
+              <option value="NP|Nepal|🇳🇵">🇳🇵 Nepal</option>
+              <option value="LK|Sri Lanka|🇱🇰">🇱🇰 Sri Lanka</option>
+              <option value="ZA|South Africa|🇿🇦">🇿🇦 South Africa</option>
+              <option value="NG|Nigeria|🇳🇬">🇳🇬 Nigeria</option>
+              <option value="MX|Mexico|🇲🇽">🇲🇽 Mexico</option>
+              <option value="KR|South Korea|🇰🇷">🇰🇷 South Korea</option>
+              <option value="PH|Philippines|🇵🇭">🇵🇭 Philippines</option>
+              <option value="EG|Egypt|🇪🇬">🇪🇬 Egypt</option>
+              <option value="VN|Vietnam|🇻🇳">🇻🇳 Vietnam</option>
+              <option value="NL|Netherlands|🇳🇱">🇳🇱 Netherlands</option>
+              <option value="SE|Sweden|🇸🇪">🇸🇪 Sweden</option>
+              <option value="CH|Switzerland|🇨🇭">🇨🇭 Switzerland</option>
+              <option value="NZ|New Zealand|🇳🇿">🇳🇿 New Zealand</option>
+              <option value="TH|Thailand|🇹🇭">🇹🇭 Thailand</option>
+              <option value="UN|Global Sky|🌍">🌍 Other / International</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Avatar Selection -->
+        <div class="form-group">
+          <label>Choose Avatar</label>
+          <div class="avatar-options" id="avatarOptions">
+            <label class="avatar-option active"><input type="radio" name="guestAvatar" value="🕊️" checked><span>🕊️</span></label>
+            <label class="avatar-option"><input type="radio" name="guestAvatar" value="🐦"><span>🐦</span></label>
+            <label class="avatar-option"><input type="radio" name="guestAvatar" value="🦅"><span>🦅</span></label>
+            <label class="avatar-option"><input type="radio" name="guestAvatar" value="🦉"><span>🦉</span></label>
+            <label class="avatar-option"><input type="radio" name="guestAvatar" value="🦚"><span>🦚</span></label>
+            <label class="avatar-option"><input type="radio" name="guestAvatar" value="🦩"><span>🦩</span></label>
+            <label class="avatar-option"><input type="radio" name="guestAvatar" value="🦢"><span>🦢</span></label>
+            <label class="avatar-option"><input type="radio" name="guestAvatar" value="🦜"><span>🦜</span></label>
+          </div>
+        </div>
+
+        <!-- Gender Selection -->
+        <div class="form-group">
+          <label>Your Gender</label>
+          <div class="guest-gender-radios">
+            <label class="gender-radio-pill active"><input type="radio" name="guestGender" value="male" checked> ♂️ Male</label>
+            <label class="gender-radio-pill"><input type="radio" name="guestGender" value="female"> ♀️ Female</label>
+            <label class="gender-radio-pill"><input type="radio" name="guestGender" value="other"> 🌈 Other</label>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-modal-submit" id="btnSaveGuestProfile">
+          <span>Enter The Pigeon Diary 🚀</span>
+        </button>
+
+      </form>
+
+    </div>
+  </div>
+
+  <!-- 2. ROOM CAPACITY FULL WAITING MODAL (When >10 users) -->
+  <div class="modal-backdrop hide" id="capacityFullModal">
+    <div class="modal-card queue-modal-card">
+      <div class="queue-icon-anim">🕊️</div>
+      <h2>Roost Full (10/10 Occupied)</h2>
+      <p>Only <strong>10 online users</strong> can participate at a time to ensure high quality voice chats.</p>
+      
+      <div class="queue-position-badge">
+        <span>Your Queue Position:</span>
+        <h3 id="queuePosNumber">#1</h3>
+      </div>
+      
+      <div class="spinner-ring queue-spinner"></div>
+      <p class="queue-tip">Please keep this tab open. You will be automatically admitted as soon as a spot opens up!</p>
+    </div>
+  </div>
+
+  <!-- 3. ACTIVE ONLINE USERS LIST MODAL -->
+  <div class="modal-backdrop hide" id="onlineUsersModal">
+    <div class="modal-card users-list-modal">
+      <div class="modal-header-row">
+        <h3><span class="material-icons-round text-cyan">groups</span> Active Pigeons Online (<span id="modalOnlineCount">0</span>/10)</h3>
+        <button class="btn-icon" id="btnCloseUsersModal"><span class="material-icons-round">close</span></button>
+      </div>
+      <div class="users-grid" id="modalUsersGrid">
+        <!-- Injected via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. PHOTO LIGHTBOX MODAL -->
+  <div class="modal-backdrop hide" id="lightboxModal">
+    <div class="lightbox-content">
+      <button class="btn-close-lightbox" id="btnCloseLightbox">×</button>
+      <img id="lightboxImg" src="" alt="Enlarged Photo">
+      <p id="lightboxCaption" class="lightbox-caption"></p>
+    </div>
+  </div>
+
+  <!-- 5. FRIEND REQUEST TOAST POPUP -->
+  <div class="friend-toast-popup hide" id="friendRequestToast">
+    <div class="toast-avatar" id="toastAvatar">🕊️</div>
+    <div class="toast-body">
+      <strong id="toastNickname">Pigeon</strong>
+      <span id="toastCountry">🇮🇳 India</span>
+      <p>wants to be your Pigeon Friend!</p>
+    </div>
+    <div class="toast-actions">
+      <button class="btn-toast-accept" id="btnAcceptFriend">Accept</button>
+      <button class="btn-toast-decline" id="btnDeclineFriend">Decline</button>
+    </div>
+  </div>
+
+  <!-- 6. IN-CALL GAMES MODAL (AirTALK Games Arena) -->
+  <div class="modal-backdrop hide" id="inCallGamesModal">
+    <div class="modal-card games-modal-card">
+      <div class="modal-header-row">
+        <h3><span class="material-icons-round text-yellow">sports_esports</span> In-Call Stranger Games</h3>
+        <button class="btn-icon" id="btnCloseGamesModal"><span class="material-icons-round">close</span></button>
+      </div>
+
+      <!-- Game Selector Tabs -->
+      <div class="game-tabs-nav">
+        <button class="game-tab-btn active" data-game="tictactoe">🎯 Tic-Tac-Toe</button>
+        <button class="game-tab-btn" data-game="rps">✊ Rock-Paper-Scissors</button>
+        <button class="game-tab-btn" data-game="icebreaker">💬 Icebreaker Cards</button>
+        <button class="game-tab-btn" data-game="dice">🎲 Roll Dice</button>
+      </div>
+
+      <!-- 1. TIC-TAC-TOE GAME ARENA -->
+      <div class="game-arena-view" id="tictactoeView">
+        <div class="game-score-row">
+          <div class="score-player me">
+            <span id="tttMyName">You (🕊️)</span>
+            <strong id="tttMyScore">0</strong>
+          </div>
+          <span class="score-vs">VS</span>
+          <div class="score-player partner">
+            <span id="tttPartnerName">Partner (🐦)</span>
+            <strong id="tttPartnerScore">0</strong>
+          </div>
+        </div>
+        <div class="game-turn-banner" id="tttTurnBanner">Your Turn! Pick a square</div>
+
+        <!-- 3x3 Grid -->
+        <div class="ttt-grid" id="tttGrid">
+          <button class="ttt-cell" data-index="0"></button>
+          <button class="ttt-cell" data-index="1"></button>
+          <button class="ttt-cell" data-index="2"></button>
+          <button class="ttt-cell" data-index="3"></button>
+          <button class="ttt-cell" data-index="4"></button>
+          <button class="ttt-cell" data-index="5"></button>
+          <button class="ttt-cell" data-index="6"></button>
+          <button class="ttt-cell" data-index="7"></button>
+          <button class="ttt-cell" data-index="8"></button>
+        </div>
+
+        <button class="btn-reset-game" id="btnResetTTT">
+          <span class="material-icons-round">refresh</span> Restart Round
+        </button>
+      </div>
+
+      <!-- 2. ROCK PAPER SCISSORS ARENA -->
+      <div class="game-arena-view hide" id="rpsView">
+        <div class="rps-status-box" id="rpsStatusBox">Pick your hand!</div>
+        <div class="rps-choices-grid">
+          <button class="rps-btn" data-choice="rock">
+            <span class="rps-emoji">✊</span>
+            <span>Rock</span>
+          </button>
+          <button class="rps-btn" data-choice="paper">
+            <span class="rps-emoji">✋</span>
+            <span>Paper</span>
+          </button>
+          <button class="rps-btn" data-choice="scissors">
+            <span class="rps-emoji">✌️</span>
+            <span>Scissors</span>
+          </button>
+        </div>
+        <div class="rps-result-reveal hide" id="rpsResultReveal">
+          <div class="rps-reveal-card">
+            <span>You: <strong id="rpsMyChoiceEmoji">✊</strong></span>
+            <span>Partner: <strong id="rpsPartnerChoiceEmoji">✋</strong></span>
+          </div>
+          <h4 id="rpsWinnerVerdict">You Win! 🎉</h4>
+        </div>
+      </div>
+
+      <!-- 3. ICEBREAKER CONVERSATION CARDS -->
+      <div class="game-arena-view hide" id="icebreakerView">
+        <div class="icebreaker-card-wrapper">
+          <span class="icebreaker-category" id="ibCategory">🔥 Deep Question</span>
+          <p class="icebreaker-question" id="ibQuestion">If you could travel anywhere in the world tomorrow for free, where would you go and why?</p>
+          <div class="ib-card-actions">
+            <button class="btn-action-primary" id="btnNextIcebreaker">
+              <span class="material-icons-round">shuffle</span> Next Question
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. ROLL DICE DUEL -->
+      <div class="game-arena-view hide" id="diceView">
+        <div class="dice-duel-container">
+          <div class="dice-players-row">
+            <div class="dice-box">
+              <span>Your Roll</span>
+              <div class="dice-cube" id="myDiceCube">🎲 6</div>
+            </div>
+            <span class="score-vs">VS</span>
+            <div class="dice-box">
+              <span>Partner Roll</span>
+              <div class="dice-cube" id="partnerDiceCube">🎲 4</div>
+            </div>
+          </div>
+          <div class="dice-verdict" id="diceVerdict">Roll to test your luck!</div>
+          <button class="btn-main-call" id="btnRollDice" style="height: 46px; font-size: 14px;">
+            <span class="material-icons-round">casino</span> Roll My Dice
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Audio Elements / Fallbacks -->
+  <audio id="remoteAudioStream" autoplay playsinline></audio>
+
+  <!-- Scripts -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

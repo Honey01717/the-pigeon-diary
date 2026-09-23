@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<script>/* force mobile layout if a phone is stuck in Chrome "Desktop site" mode */(function(){try{var ua=navigator.userAgent;if(/Android|iPhone|iPad|iPod|Mobile|Silk|KAIOS/i.test(ua)||(/Macintosh/i.test(ua)&&navigator.maxTouchPoints>1)){if(window.innerWidth>=921)document.documentElement.classList.add("fm");}}catch(e){}})();</script>
+<title>GOD'S WILL — Talk to Strangers Online | Free Random Voice & Text Chat</title>
+<meta name="description" content="GOD'S WILL is a free random voice and text chat platform. Talk to strangers instantly — no signup, no camera, crystal-clear voice with automatic background-noise removal. Share images up to 20 MB, send voice notes, and chat while you're on a live call." />
+<meta name="theme-color" content="#6c5ce7" />
+<link rel="canonical" href="/" />
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+<link rel="manifest" href="manifest.json" />
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="GOD'S WILL" />
+<meta property="og:title" content="GOD'S WILL — Talk to Strangers Online" />
+<meta property="og:description" content="Free random voice &amp; text chat. No signup. No camera. Crystal clear calls." />
+<meta property="og:type" content="website" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Signika:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/site.css?v=3" />
+</head>
+<body>
+
+<div class="announce" id="announce" hidden>
+  <span class="announce-ico">📢</span>
+  <span id="announceText"></span>
+  <button class="announce-x" id="announceClose" aria-label="Dismiss">✕</button>
+</div>
+
+<header class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" width="38" height="38">
+          <defs>
+            <linearGradient id="bg1" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="var(--primary)"/><stop offset="100%" stop-color="var(--accent)"/>
+            </linearGradient>
+          </defs>
+          <rect x="1.5" y="1.5" width="45" height="45" rx="13" fill="url(#bg1)"/>
+          <path d="M24 10c-5.4 0-9 3.9-9 9v4.5c0 5.2 3.9 8.6 9 8.6s9-3.4 9-8.6V19c0-5.1-3.6-9-9-9z" fill="#fff" opacity=".18"/>
+          <path d="M23.9 11.4c-1.2 2.2-3.6 3.5-3.6 6.3 0 2.3 1.9 4 4.2 4 2.2 0 3.9-1.6 3.9-3.7 0-2.6-2.4-4.2-4.5-6.6z" fill="#fff"/>
+          <path d="M24.4 20.6c1.4-1 3.3-.6 4.2.9.7 1.2.4 2.9-.7 3.8" stroke="#fff" stroke-width="1.7" fill="none" stroke-linecap="round"/>
+          <path d="M14 30.5h20M17.5 34.5h13M20.5 38.5h7" stroke="#fff" stroke-width="2.1" stroke-linecap="round" opacity=".92"/>
+        </svg>
+      </span>
+      <span class="brand-text"><b data-gw="site.name">GOD'S WILL</b><i>random voice &amp; text chat</i></span>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#features">Features</a>
+      <a href="#how">How it works</a>
+      <a href="#quality">Call quality</a>
+      <a href="#safety">Safety</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle" title="Switch light / dark" aria-label="Switch theme">🌙</button>
+      <a class="btn btn-primary" href="app.html?mode=both">Start Chatting</a>
+      <button class="hamb" id="hamb" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="hero-bg" aria-hidden="true"><span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span><span class="grid-overlay"></span></div>
+  <div class="wrap hero-inner">
+    <div class="hero-copy">
+      <span class="pill" data-gw="site.badge">Free random voice &amp; text chat — no signup needed</span>
+      <h1><span data-gw="site.heroTitle">Talk to Strangers Online</span><br><em data-gw="site.heroHighlight">Chat by Voice or Text</em></h1>
+      <p class="lead" data-gw="site.tagline">Talk to strangers by voice or text — free, anonymous, instant.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary btn-lg" href="app.html?mode=voice"><span>🎙️</span> Start Voice Chat</a>
+        <a class="btn btn-ghost btn-lg" href="app.html?mode=text"><span>💬</span> Start Text Chat</a>
+      </div>
+      <p class="hero-note">🔒 100% anonymous • no signup • moderated 24/7 • free forever</p>
+      <div class="hero-stats">
+        <div class="stat"><b id="statOnline">—</b><span>online now</span></div>
+        <div class="stat"><b id="statChats">—</b><span>live chats</span></div>
+        <div class="stat"><b id="statCalls">—</b><span>calls running</span></div>
+        <div class="stat"><b id="statCapacity">—</b><span>user slots</span></div>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="phone">
+        <div class="phone-notch"></div>
+        <div class="phone-screen" id="phoneScreen">
+          <div class="ph-top">
+            <span class="dot live"></span><span id="phPeer">Grace_4821</span>
+            <span class="ph-timer" id="phTimer">00:14</span>
+          </div>
+          <div class="ph-call-bar">
+            <span class="cb-ico">📞</span>
+            <span class="cb-text">Live voice call • noise filter on</span>
+            <span class="cb-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+          </div>
+          <div class="ph-msgs">
+            <div class="bubble them">hey! where are you from? 👋</div>
+            <div class="bubble me">India 🇮🇳 — you?</div>
+            <div class="bubble them">Nigeria! do you like cats or dogs?</div>
+            <div class="bubble me">dogs 🐶 obviously</div>
+            <div class="bubble them voice">
+              <button class="vo-play" tabindex="-1">▶</button>
+              <span class="vo-bars" aria-hidden="true"></span>
+              <span class="vo-time">0:06</span>
+            </div>
+            <div class="bubble them img"><span class="img-ph">🖼️ photo</span></div>
+            <div class="bubble me typing"><i></i><i></i><i></i></div>
+          </div>
+          <div class="ph-composer">
+            <span class="cp-ico">📎</span><span class="cp-ico">🎤</span>
+            <span class="cp-input">Type a message…</span><span class="cp-send">➤</span>
+          </div>
+        </div>
+      </div>
+      <div class="float-card fc1"><b>🔇 Noise filter</b><span>background aawaz auto-remove</span></div>
+      <div class="float-card fc2"><b>🖼️ 20 MB images</b><span>HD photos in chat</span></div>
+      <div class="float-card fc3"><b>⚡ Chat during call</b><span>type while you talk</span></div>
+    </div>
+  </div>
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>🎙️ Clear voice calls</span><span>🖼️ Images up to 20 MB</span><span>🎵 Voice notes</span><span>🚫 No signup</span><span>🛡️ Admin moderated</span><span>🌍 190+ countries</span><span>⚡ Chat while calling</span><span>🔒 Anonymous</span>
+      <span>🎙️ Clear voice calls</span><span>🖼️ Images up to 20 MB</span><span>🎵 Voice notes</span><span>🚫 No signup</span><span>🛡️ Admin moderated</span><span>🌍 190+ countries</span><span>⚡ Chat while calling</span><span>🔒 Anonymous</span>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="features">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Everything in one place</span>
+      <h2>Random chat, <em>done better</em></h2>
+      <p>GOD'S WILL mixes everything people loved about old random-chat sites with the quality and safety you expect in 2026.</p>
+    </div>
+    <div class="cards">
+      <article class="card reveal"><div class="ci">🎙️</div><h3>HD voice, zero noise</h3><p>Echo cancellation, auto gain and a smart noise gate cut fans, traffic and keyboard clatter from your mic — both sides hear only the voice.</p></article>
+      <article class="card reveal"><div class="ci">💬</div><h3>Chat during the call</h3><p>The call docks at the top and the chat keeps working. Send links, photos and voice notes while you are talking — exactly like AirTALK.</p></article>
+      <article class="card reveal"><div class="ci">🖼️</div><h3>Images up to 20 MB</h3><p>Share full-quality photos, memes and screenshots. Preview, progress bar and instant delivery. Admin can raise or lower the 20 MB limit.</p></article>
+      <article class="card reveal"><div class="ci">🎵</div><h3>Voice notes</h3><p>Record up to 3 minutes in one tap and send it as a clean, compressed voice message with a waveform player your partner can scrub.</p></article>
+      <article class="card reveal"><div class="ci">🎯</div><h3>Interest matching</h3><p>Pick tags like music, gaming, anime or language exchange. The matchmaker scores every waiting stranger and pairs the closest one first.</p></article>
+      <article class="card reveal"><div class="ci">🔗</div><h3>Private invite rooms</h3><p>Create a room code and share the link — your friend joins instantly, no queue, no strangers. Perfect for language practice.</p></article>
+      <article class="card reveal"><div class="ci">🛡️</div><h3>Real moderation</h3><p>Profanity filter, one-tap report, instant block, and a live admin console where the owner can kick, ban and shut down any room.</p></article>
+      <article class="card reveal"><div class="ci">⚙️</div><h3>Owner control panel</h3><p>Site name, colours, about text, user capacity limit, feature switches, upload limits and announcements — all editable from /admin.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="section alt" id="how">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">3 taps, that's it</span>
+      <h2>How GOD'S WILL works</h2>
+      <p>No email, no phone number, no camera. You are talking to a real person in under ten seconds.</p>
+    </div>
+    <ol class="steps">
+      <li class="reveal"><span class="step-n">1</span><h3>Open &amp; allow mic</h3><p>Hit <b>Start Chatting</b>. Your browser asks once for microphone access — that's only for the call you are about to make.</p></li>
+      <li class="reveal"><span class="step-n">2</span><h3>Choose voice, text or both</h3><p>Pick a mode, optionally add interest tags, then press <b>Find someone</b>. The matcher pairs you with the best waiting stranger.</p></li>
+      <li class="reveal"><span class="step-n">3</span><h3>Talk, type, share</h3><p>Start the call and keep chatting at the same time. Send images up to 20 MB and voice notes. Press <b>Next</b> whenever you want a new partner.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="section" id="quality">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Built for real conversation</span>
+      <h2>A call pipeline that sounds <em>studio clean</em></h2>
+      <p>Every microphone stream passes through a processing chain before it reaches your partner — the same idea as AirTALK, tuned harder.</p>
+    </div>
+    <div class="show-row reveal">
+      <div class="show-copy">
+        <h3>1. Clean capture</h3>
+        <p>We request <b>48 kHz mono</b> with browser-level echo cancellation, noise suppression and auto gain — so speaker echo and hiss never leave your device.</p>
+        <h3>2. Noise gate</h3>
+        <p>A high-pass filter removes rumble below 95 Hz, then a smart gate silences your mic the moment you stop talking. Fan noise, traffic and keyboard taps drop away.</p>
+        <h3>3. Clarity &amp; level</h3>
+        <p>A compressor keeps your voice steady whether you whisper or shout, and a limiter prevents clipping. Both sides hear the same balanced level.</p>
+        <h3>4. Direct WebRTC link</h3>
+        <p>Audio travels peer-to-peer (with TURN fallback) so latency stays under ~150 ms. Adaptive bitrate + ICE restart keep the call alive on weak Wi-Fi.</p>
+      </div>
+      <div class="show-visual">
+        <div class="eq-card">
+          <div class="eq-head"><span class="dot live"></span> Mic processing — live</div>
+          <div class="eq-row"><label>Input</label><div class="meter"><i style="width:72%"></i></div></div>
+          <div class="eq-row"><label>High-pass 95 Hz</label><div class="meter"><i style="width:58%"></i></div></div>
+          <div class="eq-row"><label>Noise gate</label><div class="meter"><i class="ok" style="width:86%"></i></div></div>
+          <div class="eq-row"><label>Compressor</label><div class="meter"><i style="width:64%"></i></div></div>
+          <div class="eq-row"><label>Out to peer</label><div class="meter"><i class="ok" style="width:78%"></i></div></div>
+          <div class="eq-foot"><span>🔇 Background noise removed</span><b>RTT ~90 ms</b></div>
+        </div>
+      </div>
+    </div>
+    <div class="show-row flip reveal">
+      <div class="show-copy">
+        <h3>Chat never stops during a call</h3>
+        <p>When you accept a call the chat window stays open, the composer stays active and media keeps flowing. AirTALK's best feature — upgraded.</p>
+        <ul class="ticks">
+          <li>Images up to <b>20 MB</b> with instant preview</li>
+          <li>Voice notes up to <b>3 minutes</b> with waveform player</li>
+          <li>Typing indicator, delivered ticks, auto-scroll</li>
+          <li>Works on 4G — calls adapt to your bandwidth</li>
+        </ul>
+      </div>
+      <div class="show-visual">
+        <div class="media-card">
+          <div class="mc-row"><div class="mc-bubble img"><span>🖼️</span><b>sunset.jpg</b><i>4.2 MB • sent</i></div></div>
+          <div class="mc-row right"><div class="mc-bubble voice"><button class="vo-play" tabindex="-1">▶</button><span class="vo-bars"></span><i>0:11</i></div></div>
+          <div class="mc-row"><div class="mc-bubble">this photo is insane 🔥</div></div>
+          <div class="mc-row right"><div class="mc-bubble me">thanks! shot it on my phone</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="show-row reveal">
+      <div class="show-copy">
+        <h3>Owner dashboard included</h3>
+        <p>You decide how big the platform gets. Login at <code>/admin</code> to set the maximum number of simultaneous users, switch features on or off, edit branding, and watch live traffic.</p>
+        <ul class="ticks">
+          <li>Capacity limit — <b>kitne log</b> ek time use kar sakte hain</li>
+          <li>Live users, chats, calls, queue and today's stats</li>
+          <li>Kick, ban IP, end call, send in-app notices</li>
+          <li>Site name, about, theme colours, upload limits</li>
+        </ul>
+      </div>
+      <div class="show-visual">
+        <div class="admin-card">
+          <div class="ac-head"><span>Admin • Dashboard</span><b class="ac-live">LIVE</b></div>
+          <div class="ac-kpis">
+            <div><b>37</b><span>online</span></div>
+            <div><b>100</b><span>capacity</span></div>
+            <div><b>9</b><span>calls</span></div>
+            <div><b>14</b><span>chats</span></div>
+          </div>
+          <div class="ac-bars"><span style="height:40%"></span><span style="height:62%"></span><span style="height:48%"></span><span style="height:80%"></span><span style="height:66%"></span><span style="height:92%"></span><span style="height:74%"></span></div>
+          <div class="ac-foot">Max online users <b>100</b> • Images <b>20 MB</b> • Voice notes <b>on</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section alt" id="safety">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Safety first</span>
+      <h2>Anonymous, <em>not unmoderated</em></h2>
+      <p>No signup keeps you private. Live moderation keeps it civil.</p>
+    </div>
+    <div class="cards four">
+      <article class="card reveal"><div class="ci">🚫</div><h3>Profanity filter</h3><p>Admin-editable word list masks abuse automatically before it reaches your partner.</p></article>
+      <article class="card reveal"><div class="ci">🚩</div><h3>One-tap report</h3><p>Reports land in the admin console instantly, with optional auto-ban after repeated reports.</p></article>
+      <article class="card reveal"><div class="ci">🛑</div><h3>Block &amp; never rematch</h3><p>Blocking a user keeps you apart for 24 hours and ends the session immediately.</p></article>
+      <article class="card reveal"><div class="ci">🧑‍✈️</div><h3>Human in control</h3><p>The owner can kick, ban IPs, end any call, close all rooms and put the site in maintenance mode.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="reviews">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Real users</span>
+      <h2>Why people stay on GOD'S WILL</h2>
+    </div>
+    <div class="reviews">
+      <figure class="review reveal"><blockquote>“Voice quality is the best part — my partner sounds like he is sitting next to me. No background noise at all.”</blockquote><figcaption><b>Mohammed</b><span>Nigeria</span></figcaption></figure>
+      <figure class="review reveal"><blockquote>“I practise English every night. The interest tags find people who want to talk about football.”</blockquote><figcaption><b>Aditya</b><span>India</span></figcaption></figure>
+      <figure class="review reveal"><blockquote>“Texting while the call is running is so convenient — I can send the song link without hanging up.”</blockquote><figcaption><b>Christina</b><span>Greece</span></figcaption></figure>
+      <figure class="review reveal"><blockquote>“20 MB photos actually send in full quality. No more blurry memes.”</blockquote><figcaption><b>Patrik</b><span>Czechia</span></figcaption></figure>
+      <figure class="review reveal"><blockquote>“Reporting worked instantly — the person was gone in seconds. Feels safe for my daughter to use.”</blockquote><figcaption><b>Etienne</b><span>France</span></figcaption></figure>
+      <figure class="review reveal"><blockquote>“Voice notes are perfect when I don't want to wake up the whole house.”</blockquote><figcaption><b>Nejc</b><span>Slovenia</span></figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="section alt" id="faq">
+  <div class="wrap narrow">
+    <div class="sec-head reveal">
+      <span class="eyebrow">FAQ</span>
+      <h2>Questions, answered</h2>
+    </div>
+    <div class="faq" id="faqList">
+      <details class="reveal"><summary>Is GOD'S WILL really free?</summary><p>Yes. Voice calls, text chat, images and voice notes are all free. No premium wall, no signup, no credit card.</p></details>
+      <details class="reveal"><summary>Do I need to create an account?</summary><p>Never. You get a random nickname like <b>Grace_4821</b> which you can change anytime. Nothing is stored about you except your nickname and anonymous usage counters.</p></details>
+      <details class="reveal"><summary>How is the voice so clear with no background noise?</summary><p>Your microphone is captured at 48 kHz with echo cancellation, then filtered (high-pass + noise gate) and levelled with a compressor before being sent peer-to-peer over WebRTC. Fans, traffic and keyboard noise get removed on your device, so your partner hears just your voice.</p></details>
+      <details class="reveal"><summary>Can I chat while I'm on a call?</summary><p>Yes — the call becomes a docked bar and the chat keeps working underneath. Send text, images and voice notes during the call, exactly like AirTALK.</p></details>
+      <details class="reveal"><summary>What is the maximum image size?</summary><p>20 MB per image by default. The owner can raise or lower this from the admin panel. Voice notes are also capped at 20 MB / 3 minutes.</p></details>
+      <details class="reveal"><summary>Is my camera used?</summary><p>No. There is no camera feature at all — the site never asks for or requests video permission.</p></details>
+      <details class="reveal"><summary>What happens if my internet drops?</summary><p>The call tries an automatic ICE restart first. If your connection really died, your partner sees a notice and you can rejoin the queue with one tap.</p></details>
+      <details class="reveal"><summary>How many people can use the site at once?</summary><p>The owner sets a capacity limit (slots) from the admin panel. When all slots are busy, new visitors see a friendly "try again in a few minutes" message instead of a broken page.</p></details>
+      <details class="reveal"><summary>Can I talk to a specific friend instead of a random person?</summary><p>Yes. Create a private invite room, copy the link and share it. Your friend joins straight into the same room — voice, text and media included.</p></details>
+      <details class="reveal"><summary>How do I report someone?</summary><p>Tap the 🚩 report button in the chat header. The admin console gets the report with the time and reason, and repeated offenders can be auto-banned.</p></details>
+      <details class="reveal"><summary>Does it work on mobile?</summary><p>Yes. The chat and call interface is fully responsive, and it works in Chrome, Safari, Edge and Firefox on both mobile and desktop.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="wrap cta-inner reveal">
+    <h2>Ready to talk to a stranger?</h2>
+    <p>Thousands of people are online right now. Pick a mode and say hello.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary btn-lg" href="app.html?mode=voice">🎙️ Start Voice Chat</a>
+      <a class="btn btn-ghost btn-lg" href="app.html?mode=text">💬 Start Text Chat</a>
+    </div>
+    <p class="hero-note">Free • Anonymous • No signup • Moderated</p>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="wrap foot-grid">
+    <div class="foot-brand">
+      <a class="brand" href="/">
+        <span class="brand-mark small">
+          <svg viewBox="0 0 48 48" width="32" height="32">
+            <defs><linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="var(--primary)"/><stop offset="100%" stop-color="var(--accent)"/></linearGradient></defs>
+            <rect x="1.5" y="1.5" width="45" height="45" rx="13" fill="url(#bg2)"/>
+            <path d="M23.9 11.4c-1.2 2.2-3.6 3.5-3.6 6.3 0 2.3 1.9 4 4.2 4 2.2 0 3.9-1.6 3.9-3.7 0-2.6-2.4-4.2-4.5-6.6z" fill="#fff"/>
+            <path d="M14 30.5h20M17.5 34.5h13M20.5 38.5h7" stroke="#fff" stroke-width="2.1" stroke-linecap="round" opacity=".92"/>
+          </svg>
+        </span>
+        <span class="brand-text"><b data-gw="site.name">GOD'S WILL</b></span>
+      </a>
+      <p data-gw="site.aboutShort">Free random voice &amp; text chat. Anonymous, moderated, and built for clean conversations.</p>
+      <div class="socials" id="socials"></div>
+    </div>
+    <div class="foot-col">
+      <h4>Product</h4>
+      <a href="app.html?mode=voice">Voice chat</a>
+      <a href="app.html?mode=text">Text chat</a>
+      <a href="app.html?mode=both">Random matching</a>
+      <a href="#quality">Call quality</a>
+    </div>
+    <div class="foot-col">
+      <h4>Learn</h4>
+      <a href="#how">How it works</a>
+      <a href="#features">Features</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <div class="foot-col">
+      <h4>Safety</h4>
+      <a href="#safety">Moderation</a>
+      <a href="#faq">Report a user</a>
+      <a href="mailto:info@godswill.chat" id="mailLink">Contact us</a>
+    </div>
+  </div>
+  <div class="wrap foot-bottom">
+    <span>© <span id="year">2026</span> <b data-gw="site.name">GOD'S WILL</b>. All rights reserved.</span>
+    <span data-gw="site.footerNote">No camera. No signup. Just your voice.</span>
+  </div>
+</footer>
+
+<div class="toasts" id="toasts"></div>
+<script src="js/site.js?v=3"></script>
+</body>
+</html>

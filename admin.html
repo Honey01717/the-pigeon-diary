@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<script>/* force mobile layout on touch/small-screen devices stuck in a wide "Desktop site" viewport — maxTouchPoints, screen size & DPR are hardware-based, so they work even when the UA is spoofed to desktop */(function(){function fmChk(){try{var ua=navigator.userAgent,touch=navigator.maxTouchPoints>0;var phoneLike=/Android|iPhone|iPad|iPod|Mobile|Silk|KAIOS/i.test(ua)||(/Macintosh/i.test(ua)&&navigator.maxTouchPoints>1);var small=(screen.width&&screen.width<=600); /* portrait phone screen — landscape phones are caught by touch/UA */var dense=window.devicePixelRatio>=2.5;var w=window.innerWidth;document.documentElement.classList.toggle("fm",(phoneLike||touch||small||dense)&&w>=921&&w<=1600);}catch(e){}}fmChk();window.addEventListener("resize",fmChk);window.addEventListener("pageshow",function(e){if(e.persisted){location.reload();}});})();</script>
+<title>Admin — GOD'S WILL Control Panel</title>
+<meta name="robots" content="noindex,nofollow" />
+<meta name="theme-color" content="#12122c" />
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+<link rel="manifest" href="manifest.json" />
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+<style>
+:root{
+  --primary:#6c5ce7; --accent:#00d4ff;
+  --bg:#0b0b1e; --bg2:#14142e; --bg3:#1b1b3a;
+  --card:#171734; --border:#2a2a52; --border2:#3a3a6a;
+  --text:#eaeaf8; --muted:#9a9ac2; --dim:#70709a;
+  --ok:#38e07b; --warn:#ffb020; --bad:#ff5470;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+a{color:var(--accent)}
+h1,h2,h3{margin:0 0 .4rem}
+button,input,select,textarea{font-family:inherit;font-size:.92rem}
+.hidden{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{-webkit-tap-highlight-color:transparent}
+@media (pointer:coarse){ input,select,textarea,button{font-size:16px} }
+
+/* login */
+.login-wrap{min-height:100vh;display:grid;place-items:center;padding:1rem}
+.login{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:2.2rem;width:min(400px,94vw);box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.login h1{font-size:1.35rem;display:flex;gap:.6rem;align-items:center}
+.login p{color:var(--muted);font-size:.85rem;margin:.2rem 0 1.4rem}
+.login .field{margin-bottom:1rem}
+.login input{width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);border-radius:11px;padding:.75rem .9rem;outline:none}
+.login input:focus{border-color:var(--primary)}
+.login .err{color:var(--bad);font-size:.82rem;min-height:1.2rem;margin:.4rem 0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.45rem;border:1px solid transparent;border-radius:11px;padding:.62rem 1.05rem;font-weight:600;cursor:pointer;background:linear-gradient(120deg,var(--primary),var(--accent));color:#fff;transition:.2s}
+.btn:hover{transform:translateY(-1px)}
+.btn.full{width:100%}
+.btn.ghost{background:var(--bg3);border-color:var(--border);color:var(--text)}
+.btn.sm{padding:.4rem .7rem;font-size:.8rem;border-radius:9px}
+.btn.danger{background:linear-gradient(120deg,#e0365c,#ff5470)}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+/* shell */
+.shell{display:grid;grid-template-columns:228px 1fr;min-height:100vh}
+.side{background:var(--bg2);border-right:1px solid var(--border);padding:1.1rem .8rem;display:flex;flex-direction:column;gap:.3rem;position:sticky;top:0;height:100vh;overflow-y:auto}
+.side .logo{display:flex;gap:.55rem;align-items:center;font-weight:700;padding:.3rem .5rem 1rem}
+.side .logo .mark{width:34px;height:34px;border-radius:10px;background:linear-gradient(130deg,var(--primary),var(--accent));display:grid;place-items:center;font-size:.8rem;font-weight:800;color:#fff}
+.side .logo i{display:block;font-style:normal;font-size:.64rem;color:var(--dim);font-weight:500;letter-spacing:.08em;text-transform:uppercase}
+.nav-btn{display:flex;align-items:center;gap:.6rem;background:none;border:0;color:var(--muted);padding:.6rem .7rem;border-radius:10px;cursor:pointer;font-weight:600;font-size:.9rem;text-align:left;width:100%}
+.nav-btn:hover{background:var(--bg3);color:var(--text)}
+.nav-btn.active{background:linear-gradient(120deg,color-mix(in srgb,var(--primary) 30%,transparent),color-mix(in srgb,var(--accent) 14%,transparent));color:#fff}
+.nav-btn .ic{width:20px;text-align:center}
+.side .spacer{flex:1}
+.side .meta{font-size:.68rem;color:var(--dim);padding:.6rem .5rem;border-top:1px solid var(--border)}
+.main{padding:1.4rem 1.8rem;max-width:1120px;width:100%;min-width:0}
+.topbar{display:flex;align-items:center;gap:1rem;margin-bottom:1.3rem;flex-wrap:wrap}
+.topbar h2{font-size:1.3rem;margin:0}
+.topbar .sub{color:var(--muted);font-size:.85rem}
+.topbar .right{margin-left:auto;display:flex;gap:.5rem;align-items:center}
+.livechip{font-size:.72rem;font-weight:700;color:var(--ok);border:1px solid color-mix(in srgb,var(--ok) 40%,transparent);border-radius:99px;padding:.22rem .6rem;letter-spacing:.08em}
+.savebar{position:fixed;bottom:0;right:0;left:228px;background:color-mix(in srgb,var(--bg2) 92%,transparent);backdrop-filter:blur(10px);border-top:1px solid var(--border);padding:.7rem 1.8rem;display:flex;gap:.7rem;align-items:center;z-index:40;transform:translateY(110%);transition:.25s}
+.savebar.show{transform:none}
+.savebar b{font-size:.88rem}
+.savebar .grow{flex:1}
+
+/* cards & grids */
+.grid{display:grid;gap:1rem}
+.grid.kpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr));margin-bottom:1.2rem}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:.9rem 1rem}
+.kpi b{display:block;font-size:1.5rem;color:var(--accent)}
+.kpi span{font-size:.68rem;color:var(--dim);text-transform:uppercase;letter-spacing:.08em}
+.kpi.warn b{color:var(--warn)}
+.kpi.bad b{color:var(--bad)}
+.kpi.ok b{color:var(--ok)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.2rem;margin-bottom:1rem}
+.card h3{font-size:1rem;margin-bottom:.9rem;display:flex;align-items:center;gap:.5rem}
+.card h3 .tag{margin-left:auto;font-size:.64rem;color:var(--dim);font-weight:500}
+.frm{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.9rem 1.1rem}
+.field label{display:block;font-size:.76rem;font-weight:700;color:var(--muted);margin-bottom:.35rem;text-transform:uppercase;letter-spacing:.05em}
+.field .hint{display:block;font-weight:400;text-transform:none;letter-spacing:0;color:var(--dim);font-size:.7rem}
+.field input[type=text],.field input[type=number],.field input[type=password],.field select,.field textarea{
+  width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:.55rem .7rem;outline:none
+}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--primary)}
+.field textarea{min-height:74px;resize:vertical;line-height:1.5}
+.field input[type=color]{width:100%;height:42px;border:1px solid var(--border);border-radius:10px;background:var(--bg3);padding:4px;cursor:pointer}
+.field.wide{grid-column:1/-1}
+.checks{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.55rem}
+.check{display:flex;align-items:center;justify-content:space-between;gap:.8rem;background:var(--bg3);border:1px solid var(--border);border-radius:11px;padding:.6rem .8rem;font-size:.88rem}
+.switch{position:relative;display:inline-block;width:38px;height:21px;flex:none}
+.switch input{opacity:0;width:0;height:0}
+.switch span{position:absolute;inset:0;background:var(--border2);border-radius:99px;transition:.2s;cursor:pointer}
+.switch span::after{content:"";position:absolute;width:15px;height:15px;border-radius:50%;background:#fff;top:3px;left:3px;transition:.2s}
+.switch input:checked+span{background:linear-gradient(120deg,var(--primary),var(--accent))}
+.switch input:checked+span::after{left:20px}
+
+/* tables */
+.tbl{width:100%;border-collapse:collapse;font-size:.84rem}
+.tbl th{text-align:left;color:var(--dim);font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;padding:.5rem .6rem;border-bottom:1px solid var(--border)}
+.tbl td{padding:.55rem .6rem;border-bottom:1px solid var(--border);vertical-align:middle}
+.tbl tr:hover td{background:color-mix(in srgb,var(--bg3) 60%,transparent)}
+.tbl .nick{font-weight:700}
+.tbl .ip{color:var(--muted);font-size:.76rem;cursor:help}
+.state-chip{display:inline-block;font-size:.68rem;font-weight:700;border-radius:99px;padding:.14rem .55rem;text-transform:uppercase;letter-spacing:.05em}
+.state-chip.chat{background:color-mix(in srgb,var(--ok) 16%,transparent);color:var(--ok)}
+.state-chip.queued{background:color-mix(in srgb,var(--warn) 16%,transparent);color:var(--warn)}
+.state-chip.idle{background:var(--bg3);color:var(--dim)}
+.state-chip.other{background:var(--bg3);color:var(--muted)}
+.rowacts{display:flex;gap:.3rem;flex-wrap:wrap}
+.empty{color:var(--dim);font-size:.85rem;padding:1rem;text-align:center}
+
+/* log */
+.log{display:grid;gap:.3rem;max-height:380px;overflow-y:auto;font-size:.8rem}
+.log .ev{display:flex;gap:.6rem;background:var(--bg3);border:1px solid var(--border);border-radius:9px;padding:.45rem .7rem}
+.log .ev time{color:var(--dim);font-size:.72rem;flex:none;min-width:86px}
+.log .ev .t{font-weight:700;min-width:58px;flex:none}
+.log .ev.join .t{color:var(--ok)}.log .ev.leave .t{color:var(--dim)}
+.log .ev.match .t{color:var(--accent)}.log .ev.call .t{color:var(--accent)}
+.log .ev.admin .t{color:var(--warn)}.log .ev.report .t{color:var(--bad)}
+.log .ev.queue .t,.log .ev.room .t{color:var(--muted)}.log .ev.upload .t{color:var(--muted)}
+
+/* preview box */
+.preview{border-radius:14px;border:1px dashed var(--border2);padding:1.6rem;text-align:center;background:var(--bg3)}
+.preview .p-name{font-size:1.5rem;font-weight:800}
+.preview .p-btn{display:inline-block;margin-top:.7rem;background:linear-gradient(120deg,var(--p1,#6c5ce7),var(--p2,#00d4ff));border-radius:12px;padding:.6rem 1.3rem;color:#fff;font-weight:700}
+.preview .p-tag{font-size:.78rem;color:var(--muted)}
+
+/* toasts */
+.toasts{position:fixed;bottom:1rem;right:1rem;display:grid;gap:.5rem;z-index:100;width:min(90vw,360px)}
+.toast{background:var(--bg2);border:1px solid var(--border2);border-left:3px solid var(--primary);border-radius:11px;padding:.7rem 1rem;font-size:.86rem;box-shadow:0 16px 40px rgba(0,0,0,.4);animation:tin .25s}
+.toast.ok{border-left-color:var(--ok)}.toast.bad{border-left-color:var(--bad)}.toast.warn{border-left-color:var(--warn)}
+@keyframes tin{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+@media (max-width:1150px), (pointer:coarse) and (max-width:1400px), (max-device-width:600px){
+  .shell{grid-template-columns:1fr}
+  .side{position:static;height:auto;flex-direction:row;flex-wrap:wrap;align-items:center}
+  .side .logo{padding:.2rem .4rem;width:100%}
+  .nav-btn{width:auto}
+  .side .spacer,.side .meta{display:none}
+  .main{padding:1rem}
+  .savebar{left:0;padding:.7rem 1rem}
+}
+/* force-mobile: phone in Desktop-site mode */
+html.fm .shell{grid-template-columns:1fr}
+html.fm .side{position:static;height:auto;flex-direction:row;flex-wrap:wrap;align-items:center}
+html.fm .side .logo{padding:.2rem .4rem;width:100%}
+html.fm .nav-btn{width:auto}
+html.fm .side .spacer,html.fm .side .meta{display:none}
+html.fm .main{padding:1rem}
+html.fm .savebar{left:0;padding:.7rem 1rem}
+</style>
+</head>
+<body>
+
+<!-- ============ LOGIN ============ -->
+<div class="login-wrap" id="loginWrap">
+  <form class="login" id="loginForm">
+    <h1><span style="width:38px;height:38px;border-radius:11px;background:linear-gradient(130deg,#6c5ce7,#00d4ff);display:grid;place-items:center;font-size:.85rem;color:#fff">GW</span> GOD'S WILL <span style="font-weight:500;color:var(--dim);font-size:.85rem">admin</span></h1>
+    <p>Control panel — website, users aur calls sab yahin se control hain.</p>
+    <div class="field"><label>Username</label><input id="loginUser" autocomplete="username" value="admin" /></div>
+    <div class="field"><label>Password</label><input id="loginPass" type="password" autocomplete="current-password" required /></div>
+    <div class="err" id="loginErr"></div>
+    <button class="btn full" type="submit">Sign in →</button>
+    <p style="margin-top:1.1rem;font-size:.74rem;color:var(--dim)">Default: admin / godswill123 — login ke baad turant Security tab me password badal dein.</p>
+  </form>
+</div>
+
+<!-- ============ SHELL ============ -->
+<div class="shell hidden" id="shell">
+
+  <aside class="side">
+    <div class="logo"><span class="mark">GW</span><span>GOD'S WILL<i>admin panel</i></span></div>
+    <button class="nav-btn active" data-tab="dash"><span class="ic">📊</span> Dashboard</button>
+    <button class="nav-btn" data-tab="users"><span class="ic">👥</span> Live Users</button>
+    <button class="nav-btn" data-tab="brand"><span class="ic">🏷️</span> Site &amp; Branding</button>
+    <button class="nav-btn" data-tab="theme"><span class="ic">🎨</span> Theme</button>
+    <button class="nav-btn" data-tab="features"><span class="ic">🧩</span> Features</button>
+    <button class="nav-btn" data-tab="limits"><span class="ic">🎚️</span> Limits &amp; Capacity</button>
+    <button class="nav-btn" data-tab="mod"><span class="ic">🛡️</span> Moderation</button>
+    <button class="nav-btn" data-tab="tech"><span class="ic">🛠️</span> Technical</button>
+    <button class="nav-btn" data-tab="security"><span class="ic">🔐</span> Security &amp; Backup</button>
+    <div class="spacer"></div>
+    <div class="meta">
+      <span id="sideUptime">uptime —</span><br/>
+      <a href="/" target="_blank" style="font-size:.76rem">↗ open website</a>
+    </div>
+  </aside>
+
+  <div class="main">
+
+    <!-- ===== DASHBOARD ===== -->
+    <section data-pane="dash">
+      <div class="topbar">
+        <div><h2>Dashboard</h2><div class="sub">Live state of the platform</div></div>
+        <div class="right"><span class="livechip">● LIVE</span></div>
+      </div>
+      <div class="grid kpis" id="kpiGrid"></div>
+      <div class="card">
+        <h3>📢 Broadcast to everyone <span class="tag">reaches all connected users instantly</span></h3>
+        <div style="display:flex;gap:.6rem;flex-wrap:wrap">
+          <input id="bcastText" type="text" placeholder="Message to show to every user…" style="flex:1;min-width:220px;background:var(--bg3);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:.55rem .7rem" maxlength="400" />
+          <label class="check" style="flex:none"><span style="font-size:.8rem">pin it</span><span class="switch"><input type="checkbox" id="bcastPin" /><span></span></span></label>
+          <button class="btn" id="bcastSend">Send</button>
+        </div>
+      </div>
+      <div class="card">
+        <h3>🗓 Recent activity</h3>
+        <div class="log" id="logBox"><div class="empty">waiting for events…</div></div>
+      </div>
+    </section>
+
+    <!-- ===== USERS ===== -->
+    <section data-pane="users" class="hidden">
+      <div class="topbar">
+        <div><h2>Live Users</h2><div class="sub" id="usersSub">—</div></div>
+        <div class="right"><button class="btn danger sm" id="endAllBtn">⛔ Close all chats &amp; calls</button></div>
+      </div>
+      <div class="card">
+        <table class="tbl">
+          <thead><tr><th>User</th><th>State</th><th>Peer / Mode</th><th>IP</th><th>Msgs</th><th>Up</th><th>Reports</th><th>Actions</th></tr></thead>
+          <tbody id="usersBody"></tbody>
+        </table>
+      </div>
+      <div class="card">
+        <h3>Active rooms</h3>
+        <table class="tbl">
+          <thead><tr><th>Room</th><th>Type</th><th>Members</th><th>Call</th><th>Since</th></tr></thead>
+          <tbody id="roomsBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===== SITE & BRANDING ===== -->
+    <section data-pane="brand" class="hidden">
+      <div class="topbar"><div><h2>Site &amp; Branding</h2><div class="sub">Website ka naam, text aur links — sab kuch</div></div></div>
+      <div class="card">
+        <h3>Identity</h3>
+        <div class="frm">
+          <div class="field"><label>Website name <span class="hint">har jagah dikhega — navbar, title, footer</span></label><input type="text" data-path="site.name" /></div>
+          <div class="field"><label>Short name <span class="hint">logo/avatar ke liye (2 letters)</span></label><input type="text" data-path="site.shortName" maxlength="4" /></div>
+          <div class="field wide"><label>Tagline</label><input type="text" data-path="site.tagline" /></div>
+          <div class="field"><label>Hero title (line 1)</label><input type="text" data-path="site.heroTitle" /></div>
+          <div class="field"><label>Hero highlight (line 2)</label><input type="text" data-path="site.heroHighlight" /></div>
+          <div class="field wide"><label>Hero badge</label><input type="text" data-path="site.badge" /></div>
+          <div class="field wide"><label>About text <span class="hint">footer &amp; SEO description</span></label><textarea data-path="site.about"></textarea></div>
+          <div class="field wide"><label>Footer note</label><input type="text" data-path="site.footerNote" /></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Announcement bar</h3>
+        <div class="checks" style="margin-bottom:.8rem">
+          <label class="check"><span>Show announcement</span><span class="switch"><input type="checkbox" data-path="site.announcementEnabled" /><span></span></span></label>
+        </div>
+        <div class="frm"><div class="field wide"><label>Announcement text</label><textarea data-path="site.announcement"></textarea></div></div>
+      </div>
+      <div class="card">
+        <h3>Contact &amp; social links <span class="tag">footer me dikhte hain — blank chhod doge to hide ho jayenge</span></h3>
+        <div class="frm">
+          <div class="field"><label>Support email</label><input type="text" data-path="site.supportEmail" /></div>
+          <div class="field"><label>Facebook URL</label><input type="text" data-path="site.facebook" placeholder="https://facebook.com/…" /></div>
+          <div class="field"><label>Instagram URL</label><input type="text" data-path="site.instagram" /></div>
+          <div class="field"><label>Reddit URL</label><input type="text" data-path="site.reddit" /></div>
+          <div class="field"><label>X / Twitter URL</label><input type="text" data-path="site.x" /></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== THEME ===== -->
+    <section data-pane="theme" class="hidden">
+      <div class="topbar"><div><h2>Theme</h2><div class="sub">Rang badlo — turant sab pages pe apply hota hai</div></div></div>
+      <div class="card">
+        <h3>Colours</h3>
+        <div class="frm">
+          <div class="field"><label>Primary</label><input type="color" data-path="theme.primary" /></div>
+          <div class="field"><label>Primary light</label><input type="color" data-path="theme.primary2" /></div>
+          <div class="field"><label>Accent</label><input type="color" data-path="theme.accent" /></div>
+          <div class="field"><label>Corner radius <span class="hint">px — 0 se 30</span></label><input type="number" min="0" max="30" data-path="theme.radius" /></div>
+        </div>
+        <div class="preview" style="margin-top:1rem" id="themePreview">
+          <div class="p-name" data-pv="site.name">GOD'S WILL</div>
+          <div class="p-tag" data-pv="site.tagline">random voice &amp; text chat</div>
+          <div class="p-btn">Start Chatting</div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Advanced</h3>
+        <div class="checks" style="margin-bottom:.8rem">
+          <label class="check"><span>Glow effects</span><span class="switch"><input type="checkbox" data-path="theme.glow" /><span></span></span></label>
+        </div>
+        <div class="frm"><div class="field wide"><label>Custom CSS <span class="hint">poore website pe inject hota hai — carefully!</span></label><textarea data-path="theme.customCss" style="min-height:120px;font-family:ui-monospace,monospace;font-size:.8rem" placeholder="/* example */ .hero h1 { letter-spacing: 1px; }"></textarea></div></div>
+      </div>
+    </section>
+
+    <!-- ===== FEATURES ===== -->
+    <section data-pane="features" class="hidden">
+      <div class="topbar"><div><h2>Features</h2><div class="sub">ON/OFF switches — change turant users ke liye live apply hota hai</div></div></div>
+      <div class="card">
+        <h3>Chat features</h3>
+        <div class="checks">
+          <label class="check"><span>💬 Text chat</span><span class="switch"><input type="checkbox" data-path="features.textChat" /><span></span></span></label>
+          <label class="check"><span>🎙️ Voice calls</span><span class="switch"><input type="checkbox" data-path="features.voiceCalls" /><span></span></span></label>
+          <label class="check"><span>🖼️ Image sharing</span><span class="switch"><input type="checkbox" data-path="features.images" /><span></span></span></label>
+          <label class="check"><span>🎵 Voice notes</span><span class="switch"><input type="checkbox" data-path="features.voiceNotes" /><span></span></span></label>
+          <label class="check"><span>⚡ Chat during call</span><span class="switch"><input type="checkbox" data-path="features.chatDuringCall" /><span></span></span></label>
+          <label class="check"><span>🔗 Private invite rooms</span><span class="switch"><input type="checkbox" data-path="features.privateRooms" /><span></span></span></label>
+          <label class="check"><span>🎯 Interest matching</span><span class="switch"><input type="checkbox" data-path="features.interests" /><span></span></span></label>
+          <label class="check"><span>🚩 Report button</span><span class="switch"><input type="checkbox" data-path="features.reports" /><span></span></span></label>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Quality &amp; UX defaults</h3>
+        <div class="checks">
+          <label class="check"><span>🔇 Noise filter ON by default</span><span class="switch"><input type="checkbox" data-path="features.noiseFilterDefault" /><span></span></span></label>
+          <label class="check"><span>📉 Auto-compress big images <span class="hint" style="display:block">(limit se badi photo auto chhoti hogi)</span></span><span class="switch"><input type="checkbox" data-path="features.autoCompressImages" /><span></span></span></label>
+          <label class="check"><span>🎲 Guest nicknames</span><span class="switch"><input type="checkbox" data-path="features.guestNicknames" /><span></span></span></label>
+          <label class="check"><span>⌨️ Typing indicator</span><span class="switch"><input type="checkbox" data-path="features.typingIndicator" /><span></span></span></label>
+          <label class="check"><span>🔔 Sound alerts</span><span class="switch"><input type="checkbox" data-path="features.soundAlerts" /><span></span></span></label>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== LIMITS ===== -->
+    <section data-pane="limits" class="hidden">
+      <div class="topbar"><div><h2>Limits &amp; Capacity</h2><div class="sub">Kitne log website use kar sakte hain + sizes &amp; rates</div></div></div>
+      <div class="card">
+        <h3>👥 User capacity <span class="tag">sabse important — isse zyada users ek saath online nahi ho sakte</span></h3>
+        <div class="frm">
+          <div class="field"><label>Max online users <span class="hint">capacity full → naye users ko friendly message</span></label><input type="number" min="2" max="100000" data-path="limits.maxOnline" /></div>
+          <div class="field"><label>Max connections per IP <span class="hint">multi-tab / multi-account rokne ke liye</span></label><input type="number" min="1" max="50" data-path="limits.maxPerIp" /></div>
+          <div class="field wide"><label>"Capacity full" message</label><input type="text" data-path="limits.fullMessage" /></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>📎 Media limits</h3>
+        <div class="frm">
+          <div class="field"><label>Max image size <span class="hint">MB (default 20)</span></label><input type="number" min="1" max="100" data-path="limits.maxImageMB" /></div>
+          <div class="field"><label>Max voice note size <span class="hint">MB (default 20)</span></label><input type="number" min="1" max="100" data-path="limits.maxVoiceNoteMB" /></div>
+          <div class="field"><label>Max voice note length <span class="hint">seconds (default 180 = 3:00)</span></label><input type="number" min="10" max="600" data-path="limits.maxVoiceNoteSec" /></div>
+          <div class="field"><label>Uploads per user / minute</label><input type="number" min="1" max="120" data-path="limits.uploadsPerMinute" /></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>💬 Chat limits</h3>
+        <div class="frm">
+          <div class="field"><label>Max message length</label><input type="number" min="100" max="8000" data-path="limits.maxMsgLen" /></div>
+          <div class="field"><label>Messages / minute</label><input type="number" min="5" max="500" data-path="limits.msgPerMinute" /></div>
+          <div class="field"><label>Queue timeout <span class="hint">sec — itna wait ke baad search cancel</span></label><input type="number" min="30" max="3600" data-path="limits.queueTimeoutSec" /></div>
+          <div class="field"><label>Rejoin cooldown <span class="hint">sec</span></label><input type="number" min="0" max="600" data-path="limits.cooldownSec" /></div>
+          <div class="field wide"><label>"Stranger left" message</label><input type="text" data-path="limits.offlineMessage" /></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>🎙 Voice quality</h3>
+        <div class="frm">
+          <div class="field"><label>HD voice (48kHz) <span class="hint">off = kam bandwidth</span></label><select data-path="limits.hdVoice"><option value="true">On</option><option value="false">Off</option></select></div>
+          <div class="field"><label>Noise gate strength <span class="hint">dB 3–18 • default 9 • zyada = zyada silence</span></label><input type="number" min="3" max="18" data-path="limits.noiseGateDb" /></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== MODERATION ===== -->
+    <section data-pane="mod" class="hidden">
+      <div class="topbar"><div><h2>Moderation</h2><div class="sub">Safety controls aur bans</div></div></div>
+      <div class="card">
+        <h3>Profanity filter</h3>
+        <div class="checks" style="margin-bottom:.8rem">
+          <label class="check"><span>Filter bad words</span><span class="switch"><input type="checkbox" data-path="moderation.profanityFilter" /><span></span></span></label>
+          <label class="check"><span>Allow links in chat</span><span class="switch"><input type="checkbox" data-path="moderation.allowLinks" /><span></span></span></label>
+        </div>
+        <div class="frm">
+          <div class="field wide"><label>Banned words <span class="hint">comma separated — matching words ⭐ masked</span></label><textarea data-path="moderation.bannedWords" data-type="list"></textarea></div>
+          <div class="field"><label>Link warning text</label><input type="text" data-path="moderation.linkWarning" /></div>
+          <div class="field"><label>Auto-ban after reports <span class="hint">0 = off</span></label><input type="number" min="0" max="50" data-path="moderation.autoBanAfterReports" /></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>🚫 Banned IPs <span class="tag" id="banCount"></span></h3>
+        <div style="display:flex;gap:.5rem;margin-bottom:.8rem;flex-wrap:wrap">
+          <input id="banIpInput" placeholder="e.g. 103.21.44.12" style="flex:1;min-width:180px;background:var(--bg3);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:.5rem .7rem" />
+          <button class="btn danger sm" id="banAddBtn">Ban IP</button>
+        </div>
+        <div id="banList" style="display:flex;flex-wrap:wrap;gap:.45rem"></div>
+      </div>
+    </section>
+
+    <!-- ===== TECHNICAL ===== -->
+    <section data-pane="tech" class="hidden">
+      <div class="topbar"><div><h2>Technical</h2><div class="sub">Call servers (STUN/TURN) &amp; maintenance</div></div></div>
+      <div class="card">
+        <h3>🛠 Maintenance mode <span class="tag">ON karte hi naye searches band — running chats safe rehte hain</span></h3>
+        <div class="checks" style="margin-bottom:.8rem">
+          <label class="check"><span>Maintenance mode</span><span class="switch"><input type="checkbox" data-path="security.maintenance" /><span></span></span></label>
+        </div>
+        <div class="frm"><div class="field wide"><label>Maintenance message</label><input type="text" data-path="security.maintenanceMessage" /></div></div>
+      </div>
+      <div class="card">
+        <h3>Call servers (WebRTC)</h3>
+        <div class="frm">
+          <div class="field"><label>STUN server 1</label><input type="text" data-path="webrtc.stun" /></div>
+          <div class="field"><label>STUN server 2</label><input type="text" data-path="webrtc.stun2" /></div>
+          <div class="field"><label>TURN URL <span class="hint">strict NAT / firewall users ke liye — comma separated allowed</span></label><input type="text" data-path="webrtc.turnUrl" /></div>
+          <div class="field"><label>TURN username</label><input type="text" data-path="webrtc.turnUser" /></div>
+          <div class="field"><label>TURN credential</label><input type="text" data-path="webrtc.turnCred" /></div>
+        </div>
+        <p style="color:var(--dim);font-size:.78rem;margin:.8rem 0 0">Default TURN (openrelay.metered.ca) free hai lekin limited. Production ke liye apna TURN (e.g. coturn on a VPS ya Twilio/Metered plan) use karein — tab hi 100% calls strict networks pe bhi connect honge.</p>
+      </div>
+      <div class="card">
+        <h3>🔔 Phone notifications <span class="tag" id="pushSubsTag"></span></h3>
+        <div class="checks" style="margin-bottom:.8rem">
+          <label class="check"><span>Push notifications</span><span class="switch"><input type="checkbox" data-path="push.enabled" /><span></span></span></label>
+        </div>
+        <div style="display:flex;gap:.6rem;flex-wrap:wrap;align-items:center">
+          <button class="btn ghost sm" id="pushTestBtn">🔔 Send test notification</button>
+          <span style="font-size:.78rem;color:var(--dim)">sab subscribed phones pe test alert jaayega</span>
+        </div>
+        <p style="color:var(--dim);font-size:.76rem;margin:.8rem 0 0">
+          📱 <b>Android / Desktop:</b> Chrome me site kholte hi bell icon se allow kar sakte hain.<br/>
+          🍎 <b>iPhone (iOS 16.4+):</b> user ko pehle site ko <b>Add to Home Screen</b> karna padta hai, phir notifications chalte hain (Instagram app jaisa experience).
+        </p>
+      </div>
+      <div class="card">
+        <h3>Admin session</h3>
+        <div class="frm">
+          <div class="field"><label>Session length <span class="hint">hours — uske baad re-login</span></label><input type="number" min="1" max="168" data-path="security.sessionHours" /></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SECURITY ===== -->
+    <section data-pane="security" class="hidden">
+      <div class="topbar"><div><h2>Security &amp; Backup</h2><div class="sub">Password, data export &amp; danger zone</div></div></div>
+      <div class="card">
+        <h3>🔑 Change admin login</h3>
+        <div class="frm">
+          <div class="field"><label>Current password</label><input type="password" id="pwCurrent" /></div>
+          <div class="field"><label>New username <span class="hint">blank = unchanged</span></label><input type="text" id="pwUser" placeholder="admin" /></div>
+          <div class="field"><label>New password <span class="hint">min 6 chars</span></label><input type="password" id="pwNext" /></div>
+        </div>
+        <button class="btn" id="pwBtn" style="margin-top:.9rem">Update credentials</button>
+        <p style="color:var(--dim);font-size:.76rem;margin:.6rem 0 0">Note: password badalne ke baad dobara login karna padega.</p>
+      </div>
+      <div class="card">
+        <h3>💾 Backup</h3>
+        <div style="display:flex;gap:.6rem;flex-wrap:wrap">
+          <button class="btn ghost" id="exportBtn">⬇ Export settings (JSON)</button>
+          <label class="btn ghost" style="cursor:pointer">⬆ Import settings <input type="file" id="importFile" accept=".json,application/json" hidden /></label>
+        </div>
+      </div>
+      <div class="card" style="border-color:color-mix(in srgb,var(--bad) 45%,transparent)">
+        <h3 style="color:var(--bad)">⚠ Danger zone</h3>
+        <div style="display:flex;gap:.6rem;flex-wrap:wrap">
+          <button class="btn danger" id="endAllBtn2">⛔ Close all chats &amp; calls</button>
+          <button class="btn danger" id="resetStatsBtn">🗑 Reset all statistics</button>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<div class="savebar" id="savebar">
+  <b>⚠ You have unsaved changes</b>
+  <span class="grow"></span>
+  <button class="btn ghost sm" id="discardBtn">Discard</button>
+  <button class="btn sm" id="saveBtn">💾 Save &amp; apply live</button>
+</div>
+
+<div class="toasts" id="toasts"></div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="js/admin.js?v=5"></script>
+</body>
+</html>

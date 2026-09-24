@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>GOD'S WILL — Debug</title>
+<style>
+  body{background:#000;color:#fff;font:700 30px/1.5 monospace;padding:20px;margin:0}
+  b{color:#0f8}
+  .row{border-bottom:2px solid #333;padding:12px 4px;word-break:break-all}
+  .big{font-size:40px;color:#ffd400;padding:16px 4px}
+</style>
+</head>
+<body>
+<div class="big">🔧 GOD'S WILL DEBUG</div>
+<div id="out">loading…</div>
+<script>
+(function () {
+  var q = function (s) { try { return matchMedia(s).matches; } catch (e) { return 'ERR'; } };
+  var rows = [
+    ['VIEWPORT width', window.innerWidth + ' x ' + window.innerHeight + ' px'],
+    ['SCREEN size', screen.width + ' x ' + screen.height],
+    ['PIXEL RATIO (DPR)', window.devicePixelRatio],
+    ['TOUCH points', navigator.maxTouchPoints],
+    ['coarse pointer?', q('(pointer:coarse)') ? 'YES (touch)' : 'NO (mouse)'],
+    ['device-width<=600?', q('(max-device-width:600px)') ? 'YES = PHONE screen' : 'NO = laptop/TV screen'],
+    ['width<=1150?', q('(max-width:1150px)') ? 'YES' : 'NO'],
+    ['fm class?', document.documentElement.classList.contains('fm') ? 'YES (forced mobile)' : 'NO'],
+    ['USER AGENT', navigator.userAgent.slice(0, 90)]
+  ];
+  var layout = (window.innerWidth <= 1150 || q('(max-device-width:600px)')) ? 'MOBILE 😊' : 'DESKTOP';
+  rows.push(['PAGE SHOULD SHOW', layout]);
+  document.getElementById('out').innerHTML =
+    rows.map(function (r) { return '<div class="row">' + r[0] + ': <b>' + r[1] + '</b></div>'; }).join('') +
+    '<div class="big">LAYOUT: ' + layout + '</div>';
+})();
+</script>
+</body>
+</html>
